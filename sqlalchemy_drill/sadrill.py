@@ -64,22 +64,19 @@ except ImportError:
 
 _type_map = {
     'bigint': types.BIGINT,
-    'BIGINT': types.BIGINT,
     'binary': types.LargeBinary,
     'boolean': types.BOOLEAN,
     'date': types.DATE,
-    'DATE': types.DATE,
     'decimal': types.DECIMAL,
     'double': types.FLOAT,
     'integer': types.INTEGER,
     'interval': types.Interval,
     'smallint': types.SMALLINT,
     'timestamp': types.TIMESTAMP,
-    'TIMESTAMP': types.TIMESTAMP,
     'time': types.TIME,
     'varchar': types.String,
-    'CHARACTER VARYING': types.String,
-    'ANY': types.String
+    'character varying': types.String,
+    'any': types.String
 }
 
 
@@ -246,17 +243,17 @@ class DrillDialect_sadrill(default.DefaultDialect):
     def get_columns(self, connection, table_name, schema=None, **kw):
         result = []
         if "SELECT " in table_name:
-            q = "SELECT * FROM ({table_name}) LIMIT 1".format(table_name=table_name)
+            q = "SELECT * FROM ({schema}.{table_name}) LIMIT 1".format(schema=schema, table_name=table_name)
         else:
-            q = "DESCRIBE {table_name}".format(table_name=table_name)
+            q = "DESCRIBE {schema}.{table_name}".format(schema=schema, table_name=table_name)
 
         cursor = connection.execute(q)
 
         for col in cursor:
             if len(col) > 0:
-                cname = col[1].get('Name', "")
-                dtype = str(col[1].get('dtype', 'ANY'))
-                ctype = _type_map.get(dtype, _type_map['ANY'])
+                cname = col[0]
+                dtype = col[1]
+                ctype = _type_map.get(dtype.lower(), _type_map['any'])
                 bisnull = True
                 column = {
                     "name": cname,
