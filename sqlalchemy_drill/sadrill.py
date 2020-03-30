@@ -252,6 +252,11 @@ class DrillDialect_sadrill(default.DefaultDialect):
 
         cursor = connection.execute(q)
 
+        print("************************************")
+        print(f"Getting colums for table {table_name}")
+        print("************************************")
+        print(cursor)
+
         for col in cursor:
             if len(col) > 0:
                 cname = col[1].get('Name', "")
