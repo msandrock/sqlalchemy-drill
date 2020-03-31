@@ -260,7 +260,8 @@ class DrillDialect_sadrill(default.DefaultDialect):
         logger.info("************************************")
         logger.info(f"Getting colums for table {table_name}")
         logger.info("************************************")
-        logger.info(cursor)
+        # <sqlalchemy.engine.result.ResultProxy object>
+        logger.info(cursor.fetchall())
 
         # Temp workaround
         return result
