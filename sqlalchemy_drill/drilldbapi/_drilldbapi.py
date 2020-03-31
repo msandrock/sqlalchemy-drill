@@ -8,6 +8,8 @@ from pandas import to_datetime
 from . import api_globals
 from .api_exceptions import Error, Warning, AuthError, DatabaseError, ProgrammingError, CursorClosedException, ConnectionClosedException
 
+import logging
+
 apilevel = '2.0'
 threadsafety = 3
 paramstyle = 'qmark'
@@ -117,6 +119,12 @@ class Cursor(object):
             self.proto,
             self._session
         )
+
+        # Debug logging for query results
+        logging.basicConfig()
+        logger = logging.getLogger('sqlalchemy.engine')
+        logger.setLevel(logging.INFO)
+        logger.debug(result)
 
         if result.status_code != 200:
             print("************************************")
