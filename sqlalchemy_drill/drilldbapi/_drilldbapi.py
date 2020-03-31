@@ -124,7 +124,12 @@ class Cursor(object):
         logging.basicConfig()
         logger = logging.getLogger('sqlalchemy.engine')
         logger.setLevel(logging.INFO)
-        logger.info(result)
+
+        logger.info("************************************")
+        logger.info("Result from Drill")
+        logger.info("************************************")
+        logger.info(result.status)
+        logger.info(result.data)
 
         if result.status_code != 200:
             print("************************************")
