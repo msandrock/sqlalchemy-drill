@@ -257,18 +257,21 @@ class DrillDialect_sadrill(default.DefaultDialect):
         print("************************************")
         print(cursor)
 
-        for col in cursor:
-            if len(col) > 0:
-                cname = col[1].get('Name', "")
-                dtype = str(col[1].get('dtype', 'ANY'))
-                ctype = _type_map.get(dtype, _type_map['ANY'])
-                bisnull = True
-                column = {
-                    "name": cname,
-                    "type": ctype,
-                    "default": None,
-                    "autoincrement": None,
-                    "nullable": bisnull,
-                }
-                result.append(column)
+        # Temp workaround
         return result
+
+        #for col in cursor:
+        #    if len(col) > 0:
+        #        cname = col[1].get('Name', "")
+        #        dtype = str(col[1].get('dtype', 'ANY'))
+        #        ctype = _type_map.get(dtype, _type_map['ANY'])
+        #        bisnull = True
+        #        column = {
+        #            "name": cname,
+        #            "type": ctype,
+        #            "default": None,
+        #            "autoincrement": None,
+        #            "nullable": bisnull,
+        #        }
+        #        result.append(column)
+        #return result
