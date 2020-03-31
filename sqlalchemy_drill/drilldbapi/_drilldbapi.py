@@ -128,7 +128,7 @@ class Cursor(object):
         logger.info("************************************")
         logger.info("Result from Drill")
         logger.info("************************************")
-        logger.info(result.status)
+        logger.info(result)
         logger.info(result.data)
 
         if result.status_code != 200:
