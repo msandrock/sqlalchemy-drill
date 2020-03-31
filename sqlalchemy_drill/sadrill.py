@@ -5,6 +5,7 @@ from sqlalchemy import exc, pool, types
 from sqlalchemy.engine import default
 from sqlalchemy.sql import compiler
 from pandas.core.series import Series
+import logging
 
 try:
     from sqlalchemy.sql.compiler import SQLCompiler
@@ -250,12 +251,16 @@ class DrillDialect_sadrill(default.DefaultDialect):
         else:
             q = "DESCRIBE {table_name}".format(table_name=table_name)
 
+        logging.basicConfig()
+        logger = logging.getLogger('sqlalchemy.engine')
+        logger.setLevel(logging.INFO)
+
         cursor = connection.execute(q)
 
-        print("************************************")
-        print(f"Getting colums for table {table_name}")
-        print("************************************")
-        print(cursor)
+        logger.info("************************************")
+        logger.info(f"Getting colums for table {table_name}")
+        logger.info("************************************")
+        logger.info(cursor)
 
         # Temp workaround
         return result
