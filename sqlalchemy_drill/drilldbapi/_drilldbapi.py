@@ -128,8 +128,8 @@ class Cursor(object):
         logger.info("************************************")
         logger.info("Result from Drill")
         logger.info("************************************")
-        logger.info(result)
-        logger.info(result.data)
+        #logger.info(result.status_code)
+        logger.info(result.content)
 
         if result.status_code != 200:
             print("************************************")
