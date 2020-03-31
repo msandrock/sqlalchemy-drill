@@ -124,7 +124,7 @@ class Cursor(object):
         logging.basicConfig()
         logger = logging.getLogger('sqlalchemy.engine')
         logger.setLevel(logging.INFO)
-        logger.debug(result)
+        logger.info(result)
 
         if result.status_code != 200:
             print("************************************")
