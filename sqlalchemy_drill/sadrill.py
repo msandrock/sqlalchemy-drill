@@ -261,10 +261,24 @@ class DrillDialect_sadrill(default.DefaultDialect):
         logger.info(f"Getting colums for table {table_name}")
         logger.info("************************************")
         # <sqlalchemy.engine.result.ResultProxy object>
-        logger.info(cursor.fetchall())
+        columns = cursor.fetchall()
+        logger.info(columns)
 
-        # Temp workaround
-        return result
+        for col in columns:
+            cname = col[0]
+            dtype = col[1]
+            ctype = _type_map.get(dtype, _type_map['ANY'])
+            bisnull = True
+            column = {
+                "name": cname,
+                "type": ctype,
+                "default": None,
+                "autoincrement": None,
+                "nullable": bisnull,
+            }
+            result.append(column)
+
+        logger.info(result)
 
         #for col in cursor:
         #    if len(col) > 0:
@@ -273,11 +287,11 @@ class DrillDialect_sadrill(default.DefaultDialect):
         #        ctype = _type_map.get(dtype, _type_map['ANY'])
         #        bisnull = True
         #        column = {
-        #            "name": cname,
+        #           "name": cname,
         #            "type": ctype,
         #            "default": None,
         #            "autoincrement": None,
         #            "nullable": bisnull,
         #        }
         #        result.append(column)
-        #return result
+        return result
